@@ -14,10 +14,10 @@ module.exports = {
                 type: 'asset/resource',
             },
             {
-                test: /\.(png)$/,
+                test: /\.(png|jpeg|jpg)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: "assets/[name][ext]"
+                    filename: "assets/[name].[ext]"
                 }
             }
         ]
