@@ -17,6 +17,8 @@ export default class WallSconce extends THREE.Object3D {
             this.geometry,
             new THREE.MeshLambertMaterial({color: "grey", side: THREE.DoubleSide})
         );
+        this.mesh.castShadow = true;
+        this.mesh.receiveShadow = false;
         this.add(this.mesh);
     }
 }
