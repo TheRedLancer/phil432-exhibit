@@ -9,9 +9,6 @@ class Game {
         this.canvas = this.renderer.domElement;
         let c = document.getElementById("c");
         c.appendChild(this.canvas);
-        // c.addEventListener("click", function () {
-        //     document.body.requestPointerLock();
-        // });
         this.renderer.setSize(this.canvas.offsetWidth, this.canvas.offsetHeight);
         this.renderer.setClearColor("grey", 1);
         this.launch = this.launch.bind(this);
