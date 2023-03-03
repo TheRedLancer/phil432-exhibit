@@ -6,6 +6,8 @@ import UI from './UI/UI';
 class Game { 
     constructor() {
         this.renderer = new THREE.WebGLRenderer();
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.canvas = this.renderer.domElement;
         let c = document.getElementById("c");
         c.appendChild(this.canvas);

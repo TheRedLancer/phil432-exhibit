@@ -19,73 +19,112 @@ export default class OpenLevel extends THREE.Object3D {
      * @returns {OpenLevel} this
      */
     load(scene, camera) { 
-
-        let rmHeight = 10;
+        let rmHeight = 20;
         let rmWidth = 20;
         let rmLength = 60;
-
-        let ground = new THREE.Mesh(
-            new THREE.PlaneGeometry(rmWidth, rmLength),
-            new THREE.MeshPhongMaterial({color: "grey"})
-        );
-        ground.rotateX(- Math.PI / 2);
-        scene.add(ground);
-
-        let ceiling = new THREE.Mesh(
-            new THREE.PlaneGeometry(rmWidth, rmLength),
-            new THREE.MeshPhongMaterial({color: "blue"})
-        );
-        ceiling.rotateX(Math.PI / 2);
-        ceiling.position.set(0, rmHeight,)
-        scene.add(ceiling);
-
-        let leftWall = new THREE.Mesh(
-            new THREE.PlaneGeometry(rmLength, rmHeight),
-            new THREE.MeshPhongMaterial({color: "blue", side: THREE.DoubleSide})
-        );
-        leftWall.rotateY(Math.PI / 2);
-        leftWall.position.set(-1 * rmWidth / 2, rmHeight / 2, 0)
-        scene.add(leftWall);
-
-        let rightWall = new THREE.Mesh(
-            new THREE.PlaneGeometry(rmLength, rmHeight),
-            new THREE.MeshPhongMaterial({color: "blue", side: THREE.DoubleSide})
-        );
-        rightWall.rotateY(- Math.PI / 2);
-        rightWall.position.set(rmWidth / 2, rmHeight / 2, 0)
-        scene.add(rightWall);
-
-        let backWall = new THREE.Mesh(
-            new THREE.PlaneGeometry(rmWidth, rmHeight),
-            new THREE.MeshPhongMaterial({color: "blue", side: THREE.DoubleSide})
-        );
-        backWall.position.set(0, rmHeight / 2, rmLength / 2)
-        scene.add(backWall);
-
-        let frontWall = new THREE.Mesh(
-            new THREE.PlaneGeometry(rmWidth, rmHeight),
-            new THREE.MeshPhongMaterial({color: "blue", side: THREE.DoubleSide})
-        );
-        frontWall.rotateY(Math.PI);
-        frontWall.position.set(0, rmHeight / 2, -1 * rmLength / 2)
-        scene.add(frontWall);
+        this.makeRoom(scene, rmWidth, rmHeight, rmLength);
         
-        let sconce1 = new WallSconce(0xFFFFFF, 1);
-        sconce1.position.y = rmHeight / 2;
-        scene.add(sconce1);
+        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 2 / 3, 0));
+        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 2 / 3, 0));
+        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 2 / 3, rmLength / 4));
+        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 2 / 3, rmLength / 4));
+        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 2 / 3, -1 * rmLength / 4));
+        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 2 / 3, -1 * rmLength / 4));
+
+        // let ball = (x, y, z) => {
+        //     let b = new THREE.Mesh(
+        //         new THREE.SphereGeometry(2),
+        //         new THREE.MeshPhongMaterial({color: 0xFF0000})
+        //     );
+        //     b.receiveShadow = false;
+        //     b.castShadow = true;
+        //     b.position.set(x, y, z);
+        //     return b
+        // }
+        // scene.add(ball(0, 4, 0));
+        // scene.add(ball(7, 3, 0));
 
         let p1 = new ArtPicture('../../assets/fox.jpeg', 4, 4); 
         p1.position.set(0, 4, -20);
         scene.add(p1);
 
-        // let ambient = new THREE.AmbientLight(0xFFFFFF, 0.1);
-        // scene.add(ambient);
+        let ambient = new THREE.AmbientLight(0xFFFFFF, 0.2);
+        scene.add(ambient);
 
         this.player = new Player();
-        this.player.position.set(0, 1.8, rmLength / 2 - 5);
+        this.player.position.set(0, 7, rmLength / 2 - 5);
         this.player.addCamera(camera);
         scene.add(this.player);
         
         return this;
+    }
+
+    makeRoom(scene, rmWidth, rmHeight, rmLength) {
+        let ground = new THREE.Mesh(
+            new THREE.PlaneGeometry(rmWidth, rmLength),
+            new THREE.MeshPhongMaterial({
+                color: "grey",
+                reflectivity: 0
+            })
+        );
+        ground.rotateX(- Math.PI / 2);
+        ground.receiveShadow = true;
+        ground.castShadow = false;
+        scene.add(ground);
+
+        let ceiling = new THREE.Mesh(
+            new THREE.PlaneGeometry(rmWidth, rmLength),
+            new THREE.MeshPhongMaterial({
+                color: "grey",
+                reflectivity: 0
+            })
+        );
+        ceiling.rotateX(Math.PI / 2);
+        ceiling.position.set(0, rmHeight, 0);
+        ceiling.receiveShadow = true;
+        ceiling.castShadow = false;
+        scene.add(ceiling);
+
+        let leftWall = new THREE.Mesh(
+            new THREE.PlaneGeometry(rmLength, rmHeight),
+            new THREE.MeshPhongMaterial({color: "blue"})
+        );
+        leftWall.rotateY(Math.PI / 2);
+        leftWall.position.set(-1 * rmWidth / 2, rmHeight / 2, 0);
+        leftWall.receiveShadow = true;
+        leftWall.castShadow = false;
+        scene.add(leftWall);
+
+        let rightWall = new THREE.Mesh(
+            new THREE.PlaneGeometry(rmLength, rmHeight),
+            new THREE.MeshPhongMaterial({color: "blue"})
+        );
+        rightWall.rotateY(- Math.PI / 2);
+        rightWall.position.set(rmWidth / 2, rmHeight / 2, 0);
+        rightWall.receiveShadow = true;
+        rightWall.castShadow = false;
+        scene.add(rightWall);
+
+        let backWall = new THREE.Mesh(
+            new THREE.PlaneGeometry(rmWidth, rmHeight),
+            new THREE.MeshPhongMaterial({
+                color: "blue",
+                side: THREE.DoubleSide
+            })
+        );
+        backWall.position.set(0, rmHeight / 2, rmLength / 2);
+        backWall.rotateY(Math.PI);
+        backWall.receiveShadow = true;
+        backWall.castShadow = false;
+        scene.add(backWall);
+
+        let frontWall = new THREE.Mesh(
+            new THREE.PlaneGeometry(rmWidth, rmHeight),
+            new THREE.MeshPhongMaterial({color: "blue"})
+        );
+        frontWall.position.set(0, rmHeight / 2, -1 * rmLength / 2);
+        frontWall.receiveShadow = true;
+        frontWall.castShadow = false;
+        scene.add(frontWall);
     }
 }
