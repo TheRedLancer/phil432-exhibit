@@ -44,7 +44,7 @@ export default class OpenLevel extends THREE.Object3D {
         // scene.add(ball(0, 4, 0));
         // scene.add(ball(7, 3, 0));
 
-        let p1 = new ArtPicture('../../assets/fox.jpeg', 4, 4); 
+        let p1 = new ArtPicture(require('../../assets/fox.jpeg'), 4, 4); 
         p1.position.set(0, 4, -20);
         scene.add(p1);
 
