@@ -19,17 +19,17 @@ export default class OpenLevel extends THREE.Object3D {
      * @returns {OpenLevel} this
      */
     load(scene, camera) { 
-        let rmHeight = 20;
+        let rmHeight = 15;
         let rmWidth = 20;
-        let rmLength = 60;
+        let rmLength = 50;
         this.makeRoom(scene, rmWidth, rmHeight, rmLength);
         
-        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 2 / 3, 0));
-        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 2 / 3, 0));
-        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 2 / 3, rmLength / 4));
-        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 2 / 3, rmLength / 4));
-        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 2 / 3, -1 * rmLength / 4));
-        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 2 / 3, -1 * rmLength / 4));
+        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 3 / 5, 0));
+        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 3 / 5, 0));
+        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 3 / 5, rmLength / 4));
+        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 3 / 5, rmLength / 4));
+        scene.add(new WallSconce(0xFFFFFF, 1, -rmWidth / 2 + 0.1, rmHeight * 3 / 5, -1 * rmLength / 4));
+        scene.add(new WallSconce(0xFFFFFF, 1, rmWidth / 2 - 0.1, rmHeight * 3 / 5, -1 * rmLength / 4));
 
         // let ball = (x, y, z) => {
         //     let b = new THREE.Mesh(
@@ -45,14 +45,34 @@ export default class OpenLevel extends THREE.Object3D {
         // scene.add(ball(7, 3, 0));
 
         let p1 = new ArtPicture(require('../../assets/fox.jpeg'), 4, 4); 
-        p1.position.set(0, 4, -20);
+        p1.position.set(0, 4, -1 * (rmLength / 2 - 2));
         scene.add(p1);
+
+        let p2 = new ArtPicture(require('../../assets/lion.jpeg'), 4, 4); 
+        p2.position.set(-1 * (rmWidth / 2 - 1), 4, -1 * (rmLength / 2 - (rmLength / 3)));
+        p2.rotateY(Math.PI / 2);
+        scene.add(p2);
+
+        let p3 = new ArtPicture(require('../../assets/fish.jpeg'), 4, 4); 
+        p3.position.set(rmWidth / 2 - 1, 4, -1 * (rmLength / 2 - (rmLength / 3)));
+        p3.rotateY(-1 * Math.PI / 2);
+        scene.add(p3);
+
+        let p4 = new ArtPicture(require('../../assets/man.jpeg'), 4, 4); 
+        p4.position.set(-1 * (rmWidth / 2 - 1), 4, -1 * (rmLength / 2 - 2 * (rmLength / 3)));
+        p4.rotateY(Math.PI / 2);
+        scene.add(p4);
+
+        let p5 = new ArtPicture(require('../../assets/woman.jpeg'), 4, 4); 
+        p5.position.set(rmWidth / 2 - 1, 4, -1 * (rmLength / 2 - 2 * (rmLength / 3)));
+        p5.rotateY(-1 *Math.PI / 2);
+        scene.add(p5);
 
         let ambient = new THREE.AmbientLight(0xFFFFFF, 0.2);
         scene.add(ambient);
 
-        this.player = new Player();
-        this.player.position.set(0, 7, rmLength / 2 - 5);
+        this.player = new Player(rmWidth / 2, rmLength / 2);
+        this.player.position.set(0, 2, rmLength / 2 - 5);
         this.player.addCamera(camera);
         scene.add(this.player);
         
